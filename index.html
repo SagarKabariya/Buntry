@@ -1,8 +1,8 @@
 <script type="module">
     // Import the functions you need from the Firebase SDKs
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.x/firebase-app.js";
-    import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/9.x/firebase-firestore.js";
-  
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
+    import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js";
+
     // Your web app's Firebase configuration
     const firebaseConfig = {
         apiKey: "AIzaSyDvNJdZxVPF11f19C9ZeXpsJsxpbLaJruc",
@@ -13,28 +13,27 @@
         appId: "1:62941008363:web:88df281ea876afba5809ae",
         measurementId: "G-PP0XP3R68L"
     };
-  
+
     // Initialize Firebase
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
-  
+
     // Handle RSVP Form Submission
-    document.getElementById("rsvp-form").addEventListener("submit", async function(e) {
-      e.preventDefault();
-  
-      const name = document.getElementById("name").value;
-      const email = document.getElementById("email").value;
-  
-      try {
-        await addDoc(collection(db, "rsvps"), {
-          name: name,
-          email: email,
-          timestamp: serverTimestamp()
-        });
-        alert("RSVP Submitted Successfully!");
-      } catch (error) {
-        console.error("Error submitting RSVP: ", error);
-      }
+    document.getElementById("rsvp-form").addEventListener("submit", async function (e) {
+        e.preventDefault();
+
+        const name = document.getElementById("name").value;
+        const email = document.getElementById("email").value;
+
+        try {
+            await addDoc(collection(db, "rsvps"), {
+                name: name,
+                email: email,
+                timestamp: serverTimestamp()
+            });
+            alert("RSVP Submitted Successfully!");
+        } catch (error) {
+            console.error("Error submitting RSVP: ", error);
+        }
     });
-  </script>
-  
+</script>
