@@ -1,32 +1,11 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>RSVP for My Birthday</title>
-  <link rel="stylesheet" href="styles.css">
-</head>
-<body>
-  <div class="template-container">
-    <div class="rsvp-form-container">
-      <h2>RSVP to the Party!</h2>
-      <form id="rsvp-form">
-        <label for="name">Your Name:</label>
-        <input type="text" id="name" name="name" required>
-        <label for="email">Your Email:</label>
-        <input type="email" id="email" name="email" required>
-        <button type="submit">Submit</button>
-      </form>
-    </div>
-  </div>
-
-  <!-- Firebase Configuration -->
-  <script src="https://www.gstatic.com/firebasejs/9.x/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.x/firebase-firestore.js"></script>
-  <script>
-    // Firebase configuration (use your Firebase project config here)
+<script type="module">
+    // Import the functions you need from the Firebase SDKs
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.x/firebase-app.js";
+    import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/9.x/firebase-firestore.js";
+  
+    // Your web app's Firebase configuration
     const firebaseConfig = {
-      apiKey: "AIzaSyDvNJdZxVPF11f19C9ZeXpsJsxpbLaJruc",
+        apiKey: "AIzaSyDvNJdZxVPF11f19C9ZeXpsJsxpbLaJruc",
         authDomain: "rsvp-a4edd.firebaseapp.com",
         projectId: "rsvp-a4edd",
         storageBucket: "rsvp-a4edd.appspot.com",
@@ -34,29 +13,28 @@
         appId: "1:62941008363:web:88df281ea876afba5809ae",
         measurementId: "G-PP0XP3R68L"
     };
-
+  
     // Initialize Firebase
-    firebase.initializeApp(firebaseConfig);
-    const db = firebase.firestore();
-
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+  
     // Handle RSVP Form Submission
-    document.getElementById("rsvp-form").addEventListener("submit", function(e) {
-      e.preventDefault(); // Prevent the default form submission
-
+    document.getElementById("rsvp-form").addEventListener("submit", async function(e) {
+      e.preventDefault();
+  
       const name = document.getElementById("name").value;
       const email = document.getElementById("email").value;
-
-      // Save RSVP details to Firestore
-      db.collection("rsvps").add({
-        name: name,
-        email: email,
-        timestamp: firebase.firestore.FieldValue.serverTimestamp()
-      }).then(() => {
+  
+      try {
+        await addDoc(collection(db, "rsvps"), {
+          name: name,
+          email: email,
+          timestamp: serverTimestamp()
+        });
         alert("RSVP Submitted Successfully!");
-      }).catch((error) => {
+      } catch (error) {
         console.error("Error submitting RSVP: ", error);
-      });
+      }
     });
   </script>
-</body>
-</html>
+  
