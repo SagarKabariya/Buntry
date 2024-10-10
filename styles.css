@@ -124,11 +124,13 @@ body, html {
 .slider {
   width: 100%;
   margin: 0 auto;
-  overflow: hidden; /* Added to prevent overflow issues */
-  position: relative; /* Added to ensure proper positioning */
+  overflow: hidden;
+  position: relative;
 }
+
 .slider img {
   width: 100%;
   height: auto;
-  border-radius: 10px;
+  display: block; /* Ensures the images do not have inline spacing issues */
 }
+
