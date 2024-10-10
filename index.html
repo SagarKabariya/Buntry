@@ -85,12 +85,10 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
   <script type="module">
-    import { initializeApp } from "./firebaseConfig.js";
     import { getFirestore, collection, addDoc, query, where, getDocs, serverTimestamp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js";
+    import { app } from "./firebaseConfig.js";
 
-    const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
-
     // Elements for the RSVP form
     const yesButton = document.getElementById("yes-button");
     const noButton = document.getElementById("no-button");
