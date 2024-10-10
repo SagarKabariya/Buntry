@@ -209,6 +209,15 @@ body, html {
   margin: 20px 0;
 }
 
+.invitationCard {
+  background: #f9f9f9;
+  padding: 20px;
+  border-radius: 10px;
+  margin: 20px 0;
+  max-width: 800px;
+  height: 400px;
+}
+
 .event-location {
   background: #f9f9f9;
   padding: 20px;
