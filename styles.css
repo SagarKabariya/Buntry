@@ -124,6 +124,8 @@ body, html {
 .slider {
   width: 100%;
   margin: 0 auto;
+  overflow: hidden; /* Added to prevent overflow issues */
+  position: relative; /* Added to ensure proper positioning */
 }
 .slider img {
   width: 100%;
