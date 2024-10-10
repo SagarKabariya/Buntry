@@ -87,10 +87,8 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.js"></script>
   <script type="module">
-    import { initializeApp } from "./firebaseConfig.js";
     import { getFirestore, collection, addDoc, query, where, getDocs, serverTimestamp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js";
-
-    const app = initializeApp(firebaseConfig);
+    import { app } from "./firebaseConfig.js";
     const db = getFirestore(app);
     // Elements for the RSVP form
     const yesButton = document.getElementById("yes-button");
