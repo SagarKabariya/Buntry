@@ -1,62 +1,186 @@
-<script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
-  import { getFirestore, collection, addDoc, query, where, getDocs, serverTimestamp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js";
-  import { firebaseConfig } from "./firebaseConfig.js";
-
-  // Initialize Firebase
-  const app = initializeApp(firebaseConfig);
-  const db = getFirestore(app);
-
-  // Elements for the RSVP form
-  const yesButton = document.getElementById("yes-button");
-  const noButton = document.getElementById("no-button");
-  const submitButton = document.getElementById("submit-button");
-
-  // Handle Yes Button Click
-  yesButton.addEventListener("click", () => {
-    submitButton.style.display = "block";
-    submitButton.setAttribute("data-attending", "Yes");
-  });
-
-  // Handle No Button Click
-  noButton.addEventListener("click", () => {
-    submitButton.style.display = "block";
-    submitButton.setAttribute("data-attending", "No");
-  });
-
-  // Handle Form Submission
-  document.getElementById("rsvp-form").addEventListener("submit", async function (e) {
-    e.preventDefault();
-
-    const name = document.getElementById("name").value.trim();
-    const phone = document.getElementById("phone").value.trim();
-    const attending = submitButton.getAttribute("data-attending");
-
-    if (!name || !phone) {
-      alert("Please enter your name and phone number.");
-      return;
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RSVP for My Birthday</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick-theme.min.css">
+  <style>
+    /* Inline CSS for basic styling */
+    body, html {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
     }
+    .container {
+      padding: 20px;
+    }
+    .event-details, .event-location, .photo-slider, .host-details, .rsvp-form-container {
+      margin-bottom: 30px;
+    }
+    .slick-slide img {
+      width: 100%;
+      height: auto;
+      border-radius: 10px;
+    }
+    .host-button-container {
+      text-align: right;
+      padding: 10px;
+    }
+    #host-button {
+      background-color: #333;
+      color: #fff;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    #host-button:hover {
+      background-color: #555;
+    }
+  </style>
+</head>
+<body>
+  <div class="host-button-container">
+    <button onclick="location.href='host.html'" id="host-button">Host Login</button>
+  </div>
 
-    try {
-      // Check if user already RSVP'd by phone number
-      const q = query(collection(db, "rsvps"), where("phone", "==", phone));
-      const querySnapshot = await getDocs(q);
-      if (!querySnapshot.empty) {
-        alert("You have already RSVP'd. Thank you!");
+  <div class="container">
+    <!-- Event Details -->
+    <div class="event-details">
+      <h2>Event Details</h2>
+      <p>Join us for a wonderful celebration of [Event Name]! The event will take place on:</p>
+      <p><strong>Date:</strong> Saturday, June 15th, 2024</p>
+      <p><strong>Time:</strong> 5:00 PM - 10:00 PM</p>
+    </div>
+
+    <!-- Event Location -->
+    <div class="event-location">
+      <h2>Event Location</h2>
+      <p>We will be celebrating at:</p>
+      <p><strong>Venue:</strong> The Grand Hall, 123 Main Street, Richmond, VA 23220</p>
+      <div style="height: 300px;">
+        <!-- Embedded Google Map -->
+        <iframe
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3153.835285681526!2d-122.4194150846813!3d37.774929279758814!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8085809c2ae64f1b%3A0xa3c1b0dba1225f77!2sThe%20Grand%20Hall!5e0!3m2!1sen!2sus!4v1614780187432!5m2!1sen!2sus"
+          width="100%" height="100%" frameborder="0" style="border:0;" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe>
+      </div>
+    </div>
+
+    <!-- Photo Slider -->
+    <div class="photo-slider">
+      <h2>Event Memories</h2>
+      <div class="slider">
+        <img src="https://via.placeholder.com/800x400?text=Photo+1" alt="Photo 1">
+        <img src="https://via.placeholder.com/800x400?text=Photo+2" alt="Photo 2">
+        <img src="https://via.placeholder.com/800x400?text=Photo+3" alt="Photo 3">
+      </div>
+    </div>
+
+    <!-- Host Details -->
+    <div class="host-details">
+      <h2>Host Details</h2>
+      <p><strong>Host:</strong> Sagar Kabariya</p>
+      <p>If you have any questions, feel free to contact me at:</p>
+      <p><strong>Phone:</strong> (123) 456-7890</p>
+      <p><strong>Email:</strong> sagark@example.com</p>
+    </div>
+
+    <!-- RSVP Form -->
+    <div class="rsvp-form-container">
+      <h2>RSVP to the Party!</h2>
+      <form id="rsvp-form">
+        <label for="name">Your Name:</label>
+        <input type="text" id="name" name="name" required>
+
+        <label for="phone">Your Phone Number:</label>
+        <input type="tel" id="phone" name="phone" required pattern="[0-9]{10}" placeholder="1234567890">
+
+        <p>Will you be attending?</p>
+        <button type="button" id="yes-button">Yes</button>
+        <button type="button" id="no-button">No</button>
+
+        <button type="submit" id="submit-button" style="display: none;">Submit</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
+    import { getFirestore, collection, addDoc, query, where, getDocs, serverTimestamp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js";
+    import { firebaseConfig } from "./firebaseConfig.js";
+    
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    // Elements for the RSVP form
+    const yesButton = document.getElementById("yes-button");
+    const noButton = document.getElementById("no-button");
+    const submitButton = document.getElementById("submit-button");
+
+    // Handle Yes Button Click
+    yesButton.addEventListener("click", () => {
+      submitButton.style.display = "block";
+      submitButton.setAttribute("data-attending", "Yes");
+    });
+
+    // Handle No Button Click
+    noButton.addEventListener("click", () => {
+      submitButton.style.display = "block";
+      submitButton.setAttribute("data-attending", "No");
+    });
+
+    // Handle Form Submission
+    document.getElementById("rsvp-form").addEventListener("submit", async function (e) {
+      e.preventDefault();
+
+      const name = document.getElementById("name").value.trim();
+      const phone = document.getElementById("phone").value.trim();
+      const attending = submitButton.getAttribute("data-attending");
+
+      if (!name || !phone) {
+        alert("Please enter your name and phone number.");
         return;
       }
 
-      // Add RSVP record
-      await addDoc(collection(db, "rsvps"), {
-        name: name,
-        phone: phone,
-        attending: attending,
-        timestamp: serverTimestamp()
-      });
+      try {
+        // Check if user already RSVP'd by phone number
+        const q = query(collection(db, "rsvps"), where("phone", "==", phone));
+        const querySnapshot = await getDocs(q);
+        if (!querySnapshot.empty) {
+          alert("You have already RSVP'd. Thank you!");
+          return;
+        }
 
-      window.location.href = "thankyou.html";
-    } catch (error) {
-      console.error("Error submitting RSVP: ", error);
-    }
-  });
-</script>
+        // Add RSVP record
+        await addDoc(collection(db, "rsvps"), {
+          name: name,
+          phone: phone,
+          attending: attending,
+          timestamp: serverTimestamp()
+        });
+
+        window.location.href = "thankyou.html";
+      } catch (error) {
+        console.error("Error submitting RSVP: ", error);
+      }
+    });
+
+    // Initialize Slick Slider
+    $(document).ready(function () {
+      $('.slider').slick({
+        dots: true,
+        infinite: true,
+        speed: 300,
+        slidesToShow: 1,
+        adaptiveHeight: true
+      });
+    });
+  </script>
+</body>
+</html>
