@@ -1,104 +1,62 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>RSVP for My Birthday</title>
-  <link rel="stylesheet" href="styles.css">
-</head>
-<body>
-  <div class="template-container">
-    <div class="rsvp-form-container">
-      <h2>RSVP to the Party!</h2>
-      <form id="rsvp-form">
-        <label for="name">Your Name:</label>
-        <input type="text" id="name" name="name" required>
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
+  import { getFirestore, collection, addDoc, query, where, getDocs, serverTimestamp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js";
+  import { firebaseConfig } from "./firebaseConfig.js";
 
-        <label for="phone">Your Phone Number:</label>
-        <input type="tel" id="phone" name="phone" required pattern="[0-9]{10}" placeholder="1234567890">
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
 
-        <p>Will you be attending?</p>
-        <button type="button" id="yes-button">Yes</button>
-        <button type="button" id="no-button">No</button>
+  // Elements for the RSVP form
+  const yesButton = document.getElementById("yes-button");
+  const noButton = document.getElementById("no-button");
+  const submitButton = document.getElementById("submit-button");
 
-        <button type="submit" id="submit-button" style="display: none;">Submit</button>
-      </form>
+  // Handle Yes Button Click
+  yesButton.addEventListener("click", () => {
+    submitButton.style.display = "block";
+    submitButton.setAttribute("data-attending", "Yes");
+  });
 
-      <!-- Host Login Button -->
-      <button onclick="location.href='host.html'" id="host-button">Host Login</button>
-    </div>
-  </div>
+  // Handle No Button Click
+  noButton.addEventListener("click", () => {
+    submitButton.style.display = "block";
+    submitButton.setAttribute("data-attending", "No");
+  });
 
-  <!-- Firebase Configuration and Script Section -->
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
-    import { getFirestore, collection, addDoc, query, where, getDocs, serverTimestamp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js";
+  // Handle Form Submission
+  document.getElementById("rsvp-form").addEventListener("submit", async function (e) {
+    e.preventDefault();
 
-    const firebaseConfig = {
-      apiKey: "AIzaSyDvNJdZxVPF11f19C9ZeXpsJsxpbLaJruc",
-      authDomain: "rsvp-a4edd.firebaseapp.com",
-      projectId: "rsvp-a4edd",
-      storageBucket: "rsvp-a4edd.appspot.com",
-      messagingSenderId: "62941008363",
-      appId: "1:62941008363:web:88df281ea876afba5809ae",
-      measurementId: "G-PP0XP3R68L"
-    };
+    const name = document.getElementById("name").value.trim();
+    const phone = document.getElementById("phone").value.trim();
+    const attending = submitButton.getAttribute("data-attending");
 
-    const app = initializeApp(firebaseConfig);
-    const db = getFirestore(app);
+    if (!name || !phone) {
+      alert("Please enter your name and phone number.");
+      return;
+    }
 
-    // Elements for the RSVP form
-    const yesButton = document.getElementById("yes-button");
-    const noButton = document.getElementById("no-button");
-    const submitButton = document.getElementById("submit-button");
-
-    // Handle Yes Button Click
-    yesButton.addEventListener("click", () => {
-      submitButton.style.display = "block";
-      submitButton.setAttribute("data-attending", "Yes");
-    });
-
-    // Handle No Button Click
-    noButton.addEventListener("click", () => {
-      submitButton.style.display = "block";
-      submitButton.setAttribute("data-attending", "No");
-    });
-
-    // Handle Form Submission
-    document.getElementById("rsvp-form").addEventListener("submit", async function (e) {
-      e.preventDefault();
-
-      const name = document.getElementById("name").value.trim();
-      const phone = document.getElementById("phone").value.trim();
-      const attending = submitButton.getAttribute("data-attending");
-
-      if (!name || !phone) {
-        alert("Please enter your name and phone number.");
+    try {
+      // Check if user already RSVP'd by phone number
+      const q = query(collection(db, "rsvps"), where("phone", "==", phone));
+      const querySnapshot = await getDocs(q);
+      if (!querySnapshot.empty) {
+        alert("You have already RSVP'd. Thank you!");
         return;
       }
 
-      try {
-        // Check if user already RSVP'd by phone number
-        const q = query(collection(db, "rsvps"), where("phone", "==", phone));
-        const querySnapshot = await getDocs(q);
-        if (!querySnapshot.empty) {
-          alert("You have already RSVP'd. Thank you!");
-          return;
-        }
+      // Add RSVP record
+      await addDoc(collection(db, "rsvps"), {
+        name: name,
+        phone: phone,
+        attending: attending,
+        timestamp: serverTimestamp()
+      });
 
-        // Add RSVP record
-        await addDoc(collection(db, "rsvps"), {
-          name: name,
-          phone: phone,
-          attending: attending,
-          timestamp: serverTimestamp()
-        });
-
-        window.location.href = "thankyou.html";
-      } catch (error) {
-        console.error("Error submitting RSVP: ", error);
-      }
-    });
-  </script>
-</body>
-</html>
+      window.location.href = "thankyou.html";
+    } catch (error) {
+      console.error("Error submitting RSVP: ", error);
+    }
+  });
+</script>
