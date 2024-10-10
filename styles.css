@@ -6,9 +6,9 @@ body, html {
 }
 
 .container {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 40px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
   max-width: 1200px;
   margin: 0 auto;
   padding: 40px 20px;
@@ -16,7 +16,7 @@ body, html {
 
 @media (max-width: 768px) {
   .container {
-    grid-template-columns: 1fr;
+    flex-direction: column;
   }
 }
 
@@ -43,6 +43,7 @@ body, html {
   padding: 20px;
   border-radius: 10px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  flex: 1;
 }
 
 .event-location iframe {
@@ -77,6 +78,34 @@ body, html {
 
 .rsvp-form-container button:hover {
   background: #45a049;
+}
+
+.slider {
+  width: 100%;
+  margin: 0 auto;
+  overflow: hidden;
+  position: relative;
+}
+
+.slider img {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 10px;
+}
+
+.slider .slick-prev, .slider .slick-next {
+  background: rgba(0, 0, 0, 0.5);
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.slider .slick-prev:hover, .slider .slick-next:hover {
+  background: rgba(0, 0, 0, 0.7);
 }
 
 .event-details h2, .event-location h2, .photo-slider h2, .host-details h2, .rsvp-form-container h2 {
@@ -114,17 +143,3 @@ body, html {
 #submit-button:hover {
   background-color: #0056b3;
 }
-
-.slider {
-  width: 100%;
-  margin: 0 auto;
-  overflow: hidden;
-  position: relative;
-}
-
-.slider img {
-  width: 100%;
-  height: auto;
-  display: block; /* Ensures the images do not have inline spacing issues */
-}
-
