@@ -173,15 +173,24 @@ body, html {
   height: 120px;
   border-radius: 50%;
   position: absolute;
-  bottom: 60px;
+  top: 185px;
   left: 50%;
   transform: translateX(-50%);
   border: 5px solid #fff;
 }
 
+.card-img {
+  border-radius: 50%;
+  position: absolute;
+  top: 185px;
+  left: 50%;
+  max-width: 800px;
+  margin: 5% auto 20px;
+}
+
 .container {
   max-width: 800px;
-  margin: 100px auto 20px;
+  margin: 5% auto 20px;
   padding: 20px;
   background: #fff;
   border-radius: 10px;
