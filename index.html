@@ -7,9 +7,12 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick-theme.min.css">
   <link rel="stylesheet" href="styles.css"> <!-- Link to external stylesheet -->
-
 </head>
 <body>
+  <div class="host-button-container">
+    <button onclick="location.href='host.html'" id="host-button">Host Login</button>
+  </div>
+
   <div class="container">
     <!-- Event Details -->
     <div class="event-details">
@@ -81,4 +84,79 @@
   <!-- Scripts -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
-  <script type="modu
+  <script type="module">
+    import { initializeApp } from "./firebaseConfig.js";
+    import { getFirestore, collection, addDoc, query, where, getDocs, serverTimestamp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js";
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    // Elements for the RSVP form
+    const yesButton = document.getElementById("yes-button");
+    const noButton = document.getElementById("no-button");
+    const submitButton = document.getElementById("submit-button");
+
+    // Handle Yes Button Click
+    yesButton.addEventListener("click", () => {
+      submitButton.style.display = "block";
+      submitButton.setAttribute("data-attending", "Yes");
+    });
+
+    // Handle No Button Click
+    noButton.addEventListener("click", () => {
+      submitButton.style.display = "block";
+      submitButton.setAttribute("data-attending", "No");
+    });
+
+    // Handle Form Submission
+    document.getElementById("rsvp-form").addEventListener("submit", async function (e) {
+      e.preventDefault();
+
+      const name = document.getElementById("name").value.trim();
+      const phone = document.getElementById("phone").value.trim();
+      const attending = submitButton.getAttribute("data-attending");
+
+      if (!name || !phone) {
+        alert("Please enter your name and phone number.");
+        return;
+      }
+
+      try {
+        // Check if user already RSVP'd by phone number
+        const q = query(collection(db, "rsvps"), where("phone", "==", phone));
+        const querySnapshot = await getDocs(q);
+        if (!querySnapshot.empty) {
+          alert("You have already RSVP'd. Thank you!");
+          return;
+        }
+
+        // Add RSVP record
+        await addDoc(collection(db, "rsvps"), {
+          name: name,
+          phone: phone,
+          attending: attending,
+          timestamp: serverTimestamp()
+        });
+
+        window.location.href = "thankyou.html";
+      } catch (error) {
+        console.error("Error submitting RSVP: ", error);
+      }
+    });
+
+    // Initialize Slick Slider
+    $(document).ready(function () {
+      $('.slider').slick({
+        dots: true,
+        infinite: true,
+        speed: 300,
+        slidesToShow: 1,
+        adaptiveHeight: true,
+        autoplay: true,
+        autoplaySpeed: 3000, // 3 seconds
+        arrows: true
+      });
+    });
+  </script>
+</body>
+</html>
