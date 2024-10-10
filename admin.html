@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RSVP Admin Page</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="admin-container">
+    <h2>RSVP List</h2>
+    <div id="rsvp-list">
+      <h3>Attending Yes</h3>
+      <ul id="yes-list"></ul>
+
+      <h3>Attending No</h3>
+      <ul id="no-list"></ul>
+    </div>
+  </div>
+
+  <!-- Firebase Configuration and Script Section -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
+    import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js";
+
+    // Firebase configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyDvNJdZxVPF11f19C9ZeXpsJsxpbLaJruc",
+      authDomain: "rsvp-a4edd.firebaseapp.com",
+      projectId: "rsvp-a4edd",
+      storageBucket: "rsvp-a4edd.appspot.com",
+      messagingSenderId: "62941008363",
+      appId: "1:62941008363:web:88df281ea876afba5809ae",
+      measurementId: "G-PP0XP3R68L"
+    };
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    // Fetch and display RSVPs
+    async function fetchRSVPs() {
+      try {
+        const querySnapshot = await getDocs(collection(db, "rsvps"));
+        const yesList = document.getElementById("yes-list");
+        const noList = document.getElementById("no-list");
+
+        querySnapshot.forEach((doc) => {
+          const data = doc.data();
+          const listItem = document.createElement("li");
+          listItem.textContent = `${data.name} (${data.email})`;
+
+          if (data.attending === "Yes") {
+            listItem.textContent += ` - Adults: ${data.adults}, Kids: ${data.kids}`;
+            yesList.appendChild(listItem);
+          } else if (data.attending === "No") {
+            noList.appendChild(listItem);
+          }
+        });
+      } catch (error) {
+        console.error("Error fetching RSVPs: ", error);
+      }
+    }
+
+    // Call fetchRSVPs function when page loads
+    window.onload = fetchRSVPs;
+  </script>
+</body>
+</html>
