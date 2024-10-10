@@ -12,13 +12,9 @@
   <div class="header"></div>
     <img src="banner.jpg" alt="Banner" class="header-banner">
     <img src="profile.jpg" alt="Profile" class="profile-img">
+    <h1 class="event-title">Surprise Birthday Party for Bunty</h1>
   </div>
   <div class="container">
-    <!-- Event Title -->
-    <div class="event-description">
-      <h1 class="event-title">Surprise Birthday Party for Bunty</h1>
-    </div>
-    
     <!-- Event Description -->
     <div class="event-description">
       <p>We are hosting a Surprise Birthday Party for our lovely Bunty on his 36th Birthday at Kinara Indian Restaurant</p>
@@ -32,19 +28,7 @@
       <p><strong>Kinara Indian Cuisine & Bar</strong><br>5957 Exchange Dr, Eldersburg, MD 21784</p>
     </div>
 
-    <!-- RSVP Section -->
-    <div class="rsvp-section">
-      <h2>I WILL BE THERE</h2>
-      <button class="rsvp-button yes">😀 Yes</button>
-      <button class="rsvp-button maybe">🤔 Maybe</button>
-      <button class="rsvp-button no">😞 No</button>
-    </div>
-  </div>
-  <div class="host-button-container">
-    <button onclick="location.href='host.html'" id="host-button">Host Login</button>
-  </div>
-
-  <div class="container">
+    div class="container">
 
     <!-- Host Details -->
     <div class="host-details">
@@ -55,39 +39,40 @@
       <p><strong>Email:</strong> sagark@example.com</p>
     </div>
 
+    <!-- RSVP Section -->
+    <div class="rsvp-section">
+      <h2>I WILL BE THERE</h2>
+      <button class="rsvp-button yes" id="yes-button">😀 Yes</button>
+      <button class="rsvp-button maybe">🤔 Maybe</button>
+      <button class="rsvp-button no" id="no-button">😞 No</button>
+    </div>
+
     <!-- RSVP Form -->
-    <div class="rsvp-form-container">
-      <h2>RSVP to the Party!</h2>
+    <div id="rsvp-form-container" style="display: none;">
       <form id="rsvp-form">
         <label for="name">Your Name:</label>
         <input type="text" id="name" name="name" required>
 
         <label for="phone">Your Phone Number:</label>
         <input type="tel" id="phone" name="phone" required pattern="[0-9]{10}" placeholder="1234567890">
-
-        <p>Will you be attending?</p>
-        <div style="display: flex;">
-          <button type="button" id="yes-button">Yes</button>
-          <button type="button" id="no-button">No</button>
-        </div>
-
-        <!-- Additional fields for adults and kids count -->
-        <div id="additional-info" style="display: none;">
+        <div id="additional-info" style="display: none;"></div>
           <label for="adults">Number of Adults:</label>
           <input type="number" id="adults" name="adults" min="1" max="10">
 
           <label for="kids">Number of Kids:</label>
           <input type="number" id="kids" name="kids" min="0" max="10">
-        </div>
-
+        </div>  
         <button type="submit" id="submit-button">Submit</button>
       </form>
     </div>
   </div>
 
+  <div class="host-button-container">
+    <button onclick="location.href='host.html'" id="host-button">Host Login</button>
+  </div>
+
   <!-- Scripts -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.js"></script>
   <script type="module">
     import { getFirestore, collection, addDoc, query, where, getDocs, serverTimestamp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js";
     import { app } from "./firebaseConfig.js";
@@ -96,22 +81,19 @@
     const yesButton = document.getElementById("yes-button");
     const noButton = document.getElementById("no-button");
     const submitButton = document.getElementById("submit-button");
-    const additionalInfo = document.getElementById("additional-info");
-    const adultsInput = document.getElementById("adults");
+    const rsvpFormContainer = document.getElementById("rsvp-form-container");
     const kidsInput = document.getElementById("kids");
 
     // Handle Yes Button Click
     yesButton.addEventListener("click", () => {
-      submitButton.style.display = "block";
-      additionalInfo.style.display = "block"; // Show additional fields
+      rsvpFormContainer.style.display = "block";
       submitButton.setAttribute("data-attending", "Yes");
     });
 
     // Handle No Button Click
     noButton.addEventListener("click", () => {
-      submitButton.style.display = "block";
-      additionalInfo.style.display = "none"; // Hide additional fields
-      submitButton.setAttribute("data-attending", "No");
+      rsvpFormContainer.style.display = "none"; // Hide form
+      alert("Thank you for letting us know. Have a great day!");
     });
 
     // Handle Form Submission
@@ -168,25 +150,6 @@
       } catch (error) {
         console.error("Error submitting RSVP: ", error);
       }
-    });
-
-    // Initialize Swiper Slider
-    document.addEventListener('DOMContentLoaded', function () {
-      const swiper = new Swiper('.swiper-container', {
-        loop: true,
-        autoplay: {
-          delay: 3000,
-          disableOnInteraction: false,
-        },
-        pagination: {
-          el: '.swiper-pagination',
-          clickable: true,
-        },
-        navigation: {
-          nextEl: '.swiper-button-next',
-          prevEl: '.swiper-button-prev',
-        },
-      });
     });
   </script>
 </body>
