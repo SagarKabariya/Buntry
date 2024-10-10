@@ -1,13 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>RSVP for My Birthday</title>
   <link rel="stylesheet" href="styles.css">
 </head>
-
 <body>
   <div class="template-container">
     <div class="rsvp-form-container">
@@ -16,32 +14,25 @@
         <label for="name">Your Name:</label>
         <input type="text" id="name" name="name" required>
 
-        <label for="email">Your Email:</label>
-        <input type="email" id="email" name="email" required>
+        <label for="phone">Your Phone Number:</label>
+        <input type="tel" id="phone" name="phone" required pattern="[0-9]{10}" placeholder="1234567890">
 
         <p>Will you be attending?</p>
         <button type="button" id="yes-button">Yes</button>
         <button type="button" id="no-button">No</button>
 
-        <div id="extra-info" style="display: none;">
-          <label for="adults">Number of Adults:</label>
-          <input type="number" id="adults" name="adults" min="0" value="1" required>
-
-          <label for="kids">Number of Kids:</label>
-          <input type="number" id="kids" name="kids" min="0" value="0" required>
-        </div>
-
         <button type="submit" id="submit-button" style="display: none;">Submit</button>
-        <button onclick="location.href='host.html'" id="host-button">Host Login</button>
       </form>
+
+      <!-- Host Login Button -->
+      <button onclick="location.href='host.html'" id="host-button">Host Login</button>
     </div>
   </div>
-  
 
   <!-- Firebase Configuration and Script Section -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
-    import { getFirestore, collection, addDoc, getDocs, query, where, serverTimestamp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js";
+    import { getFirestore, collection, addDoc, query, where, getDocs, serverTimestamp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js";
 
     const firebaseConfig = {
       apiKey: "AIzaSyDvNJdZxVPF11f19C9ZeXpsJsxpbLaJruc",
@@ -59,73 +50,47 @@
     // Elements for the RSVP form
     const yesButton = document.getElementById("yes-button");
     const noButton = document.getElementById("no-button");
-    const extraInfo = document.getElementById("extra-info");
     const submitButton = document.getElementById("submit-button");
 
     // Handle Yes Button Click
     yesButton.addEventListener("click", () => {
-      extraInfo.style.display = "block";
       submitButton.style.display = "block";
+      submitButton.setAttribute("data-attending", "Yes");
     });
 
     // Handle No Button Click
-    noButton.addEventListener("click", async () => {
-      const name = document.getElementById("name").value;
-      const email = document.getElementById("email").value;
+    noButton.addEventListener("click", () => {
+      submitButton.style.display = "block";
+      submitButton.setAttribute("data-attending", "No");
+    });
 
-      if (!name || !email) {
-        alert("Please enter your name and email before proceeding.");
+    // Handle Form Submission
+    document.getElementById("rsvp-form").addEventListener("submit", async function (e) {
+      e.preventDefault();
+
+      const name = document.getElementById("name").value.trim();
+      const phone = document.getElementById("phone").value.trim();
+      const attending = submitButton.getAttribute("data-attending");
+
+      if (!name || !phone) {
+        alert("Please enter your name and phone number.");
         return;
       }
 
       try {
-        // Check if user already RSVP'd
-        const q = query(collection(db, "rsvps"), where("email", "==", email));
+        // Check if user already RSVP'd by phone number
+        const q = query(collection(db, "rsvps"), where("phone", "==", phone));
         const querySnapshot = await getDocs(q);
         if (!querySnapshot.empty) {
           alert("You have already RSVP'd. Thank you!");
           return;
         }
 
-        // Add "No" RSVP
+        // Add RSVP record
         await addDoc(collection(db, "rsvps"), {
           name: name,
-          email: email,
-          attending: "No",
-          timestamp: serverTimestamp()
-        });
-
-        window.location.href = "thankyou.html";
-      } catch (error) {
-        console.error("Error submitting RSVP: ", error);
-      }
-    });
-
-    // Handle Form Submission for "Yes"
-    document.getElementById("rsvp-form").addEventListener("submit", async function (e) {
-      e.preventDefault();
-
-      const name = document.getElementById("name").value;
-      const email = document.getElementById("email").value;
-      const adults = document.getElementById("adults").value;
-      const kids = document.getElementById("kids").value;
-
-      try {
-        // Check if user already RSVP'd
-        const q = query(collection(db, "rsvps"), where("email", "==", email));
-        const querySnapshot = await getDocs(q);
-        if (!querySnapshot.empty) {
-          alert("You have already RSVP'd. Thank you!");
-          return;
-        }
-
-        // Add "Yes" RSVP
-        await addDoc(collection(db, "rsvps"), {
-          name: name,
-          email: email,
-          attending: "Yes",
-          adults: parseInt(adults),
-          kids: parseInt(kids),
+          phone: phone,
+          attending: attending,
           timestamp: serverTimestamp()
         });
 
@@ -136,5 +101,4 @@
     });
   </script>
 </body>
-
 </html>
