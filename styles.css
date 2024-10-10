@@ -79,12 +79,6 @@ body, html {
   background: #45a049;
 }
 
-.slider img {
-  width: 100%;
-  height: auto;
-  border-radius: 10px;
-}
-
 .event-details h2, .event-location h2, .photo-slider h2, .host-details h2, .rsvp-form-container h2 {
   color: #333;
   margin-bottom: 10px;
