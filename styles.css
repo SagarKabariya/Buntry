@@ -92,13 +92,6 @@ body, html {
   margin: 0 auto;
 }
 
-.swiper-slide img {
-  width: 20%;
-  height: 20%;
-  object-fit: cover;
-  border-radius: 10px;
-}
-
 .slider .slick-prev, .slider .slick-next {
   background: rgba(0, 0, 0, 0.5);
   border-radius: 50%;
@@ -180,12 +173,8 @@ body, html {
 }
 
 .card-img {
-  border-radius: 50%;
-  position: absolute;
-  top: 185px;
-  left: 50%;
-  max-width: 800px;
-  margin: 5% auto 20px;
+  max-width: 70%;
+  margin: 10% auto 20px;
 }
 
 .container {
