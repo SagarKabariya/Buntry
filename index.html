@@ -7,16 +7,17 @@
   <title>Surprise Birthday Party for Bunty</title>
   <link rel="stylesheet" href="styles.css"> <!-- Link to external stylesheet -->
 
-   <!-- Open Graph Meta Tags -->
-   <meta property="og:title" content="Surprise Birthday Party for Bunty">
-   <meta property="og:description" content="Join us for a Surprise Birthday Party for our lovely Bunty at Kinara Indian Cuisine & Bar.">
-   <meta property="og:image" content="https://sagarkabariya.github.io/bunty/buntyphotos/invitationCard.jpg">
-   <meta property="og:url" content="https://sagarkabariya.github.io/bunty/">
-   <meta property="og:type" content="website">
+  <!-- Open Graph Meta Tags -->
+  <meta property="og:title" content="Surprise Birthday Party for Bunty">
+  <meta property="og:description"
+    content="Join us for a Surprise Birthday Party for our lovely Bunty at Kinara Indian Cuisine & Bar.">
+  <meta property="og:image" content="https://sagarkabariya.github.io/bunty/buntyphotos/invitationCard.jpg">
+  <meta property="og:url" content="https://sagarkabariya.github.io/bunty/">
+  <meta property="og:type" content="website">
 </head>
 
 <body>
-  
+
   <div class="header">
     <img src="buntyphotos/invitationCard.jpg" alt="card" class="card-img">
   </div>
@@ -25,62 +26,63 @@
     <!-- <img src="profile.jpg" alt="Profile" class="profile-img"> -->
     <h1 class="event-title">Surprise Birthday Party for Bunty</h1>
   </div>
- 
+
   <div class="container">
     <p>We are hosting a Surprise Birthday Party for our lovely Bunty on his 36th Birthday at Kinara Indian Restaurant
     </p>
 
-  <!-- Event Location -->
-  <div class="event-location">
-    <iframe
-      src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3090.419474268597!2d-76.96449488419569!3d39.403876479491874!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c8237f5c5b36ef%3A0x195f9302fd843428!2sKinara%20Indian%20Cuisine%20%26%20Bar!5e0!3m2!1sen!2sus!4v1696951466675!5m2!1sen!2sus"
-      width="100%" height="300" frameborder="0" style="border:0;" allowfullscreen="" aria-hidden="false"
-      tabindex="0"></iframe>
-    <p><strong>Kinara Indian Cuisine & Bar</strong><br>5957 Exchange Dr, Eldersburg, MD 21784</p>
-    <button onclick="window.open('https://g.co/kgs/YoiStCZ', '_blank')" class="get-direction-button">Get Directions</button>
-  </div>
+    <!-- Event Location -->
+    <div class="event-location">
+      <iframe
+        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3090.419474268597!2d-76.96449488419569!3d39.403876479491874!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c8237f5c5b36ef%3A0x195f9302fd843428!2sKinara%20Indian%20Cuisine%20%26%20Bar!5e0!3m2!1sen!2sus!4v1696951466675!5m2!1sen!2sus"
+        width="100%" height="300" frameborder="0" style="border:0;" allowfullscreen="" aria-hidden="false"
+        tabindex="0"></iframe>
+      <p><strong>Kinara Indian Cuisine & Bar</strong><br>5957 Exchange Dr, Eldersburg, MD 21784</p>
+      <button onclick="window.open('https://g.co/kgs/YoiStCZ', '_blank')" class="get-direction-button">Get
+        Directions</button>
+    </div>
 
-  <!-- Host Details -->
-  <div class="host-details">
-    <h2>Host Details</h2>
-    <p><strong>Host:</strong> Bhumi and Prashant Patel</p>
-    <p>If you have any questions, feel free to contact Aarti and Kani Patel at:</p>
-    <p><strong>Aarti Patel :</strong> (443) 858-4464</p>
-    <p><strong>Kani Patel  :</strong> (443) 763-0717</p>
-  </div>
+    <!-- Host Details -->
+    <div class="host-details">
+      <h2>Host Details</h2>
+      <p><strong>Host:</strong> Bhumi and Prashant Patel</p>
+      <p>If you have any questions, feel free to contact Aarti and Kani Patel at:</p>
+      <p><strong>Aarti Patel :</strong> (443) 858-4464</p>
+      <p><strong>Kani Patel :</strong> (443) 763-0717</p>
+    </div>
 
-  <!-- RSVP Section -->
-  <div class="rsvp-section">
-    <h2>I WILL BE THERE</h2>
-    <button class="rsvp-button yes" id="yes-button">😀 Yes</button>
-    <button class="rsvp-button maybe">🤔 Maybe</button>
-    <button class="rsvp-button no" id="no-button">😞 No</button>
-  </div>
+    <!-- RSVP Section -->
+    <div class="rsvp-section">
+      <h2>I WILL BE THERE</h2>
+      <button class="rsvp-button yes" id="yes-button">😀 Yes</button>
+      <button class="rsvp-button maybe">🤔 Maybe</button>
+      <button class="rsvp-button no" id="no-button">😞 No</button>
+    </div>
 
-  <!-- RSVP Form -->
-  <div id="rsvp-form-container" style="display: none;">
-    <form id="rsvp-form">
-      <label for="name">Your Name:</label>
-      <input type="text" id="name" name="name" required>
+    <!-- RSVP Form -->
+    <div id="rsvp-form-container" style="display: none;">
+      <form id="rsvp-form">
+        <label for="name">Your Name:</label>
+        <input type="text" id="name" name="name" required>
 
-      <label for="phone">Your Phone Number:</label>
-      <input type="tel" id="phone" name="phone" required pattern="[0-9]{10}" placeholder="1234567890">
-      <div id="additional-info" style="display: none;"></div>
-      <label for="adults">Number of Adults:</label>
-      <input type="number" id="adults" name="adults" min="1" max="10">
+        <label for="phone">Your Phone Number:</label>
+        <input type="tel" id="phone" name="phone" required pattern="[0-9]{10}" placeholder="1234567890">
+        <div id="additional-info" style="display: none;"></div>
+        <label for="adults">Number of Adults:</label>
+        <input type="number" id="adults" name="adults" min="1" max="10">
 
-      <label for="kids">Number of Kids:</label>
-      <input type="number" id="kids" name="kids" min="0" max="10">
-  </div>
-  <button type="submit" id="submit-button">Submit</button>
-  </form>
+        <label for="kids">Number of Kids:</label>
+        <input type="number" id="kids" name="kids" min="0" max="10">
+        <button type="submit" id="submit-button">Submit</button>
+    </form>
+      </div>
   </div>
   </div>
 
   <div class="host-button-container">
     <button onclick="location.href='host.html'" id="host-button">Host Login</button>
   </div>
-</div>
+  </div>
 
   <!-- Scripts -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>

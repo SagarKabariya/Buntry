@@ -128,7 +128,6 @@ body, html {
 }
 
 #submit-button {
-  display: none;
   background-color: #007BFF;
   color: #fff;
   padding: 10px;
