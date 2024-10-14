@@ -8,14 +8,23 @@
 </head>
 <body>
   <div class="admin-container">
-    <h2>RSVP List</h2>
-    <div id="rsvp-list">
-      <h3>Attending Yes</h3>
-      <ul id="yes-list"></ul>
+    <h2>RSVP Summary</h2>
+    <p>Total Adults: <span id="total-adults">0</span></p>
+    <p>Total Kids: <span id="total-kids">0</span></p>
 
-      <h3>Attending No</h3>
-      <ul id="no-list"></ul>
-    </div>
+    <h3>RSVP List</h3>
+    <table id="rsvp-table" border="1">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Phone</th>
+          <th>Adults</th>
+          <th>Kids</th>
+          <th>Attending</th>
+        </tr>
+      </thead>
+      <tbody id="rsvp-table-body"></tbody>
+    </table>
   </div>
 
   <!-- Firebase Configuration and Script Section -->
@@ -42,21 +51,32 @@
     async function fetchRSVPs() {
       try {
         const querySnapshot = await getDocs(collection(db, "rsvps"));
-        const yesList = document.getElementById("yes-list");
-        const noList = document.getElementById("no-list");
+        const rsvpTableBody = document.getElementById("rsvp-table-body");
+        let totalAdults = 0;
+        let totalKids = 0;
 
         querySnapshot.forEach((doc) => {
           const data = doc.data();
-          const listItem = document.createElement("li");
-          listItem.textContent = `${data.name} (${data.email})`;
+          const tableRow = document.createElement("tr");
+          tableRow.innerHTML = `
+            <td>${data.name}</td>
+            <td>${data.phone}</td>
+            <td>${data.adults || 0}</td>
+            <td>${data.kids || 0}</td>
+            <td>${data.attending}</td>
+          `;
+          rsvpTableBody.appendChild(tableRow);
 
           if (data.attending === "Yes") {
-            listItem.textContent += ` - Adults: ${data.adults}, Kids: ${data.kids}`;
-            yesList.appendChild(listItem);
-          } else if (data.attending === "No") {
-            noList.appendChild(listItem);
+            totalAdults += data.adults || 0;
+            totalKids += data.kids || 0;
           }
         });
+
+        // Update total adults and kids on the page
+        document.getElementById("total-adults").textContent = totalAdults;
+        document.getElementById("total-kids").textContent = totalKids;
+
       } catch (error) {
         console.error("Error fetching RSVPs: ", error);
       }
