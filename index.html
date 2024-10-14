@@ -69,10 +69,10 @@
         <input type="tel" id="phone" name="phone" required pattern="[0-9]{10}" placeholder="1234567890">
         <div id="additional-info" style="display: none;"></div>
         <label for="adults">Number of Adults:</label>
-        <input type="number" id="adultsInput" name="adultsInput" min="1" max="10">
+        <input type="number" id="adults" name="adults" min="1" max="10">
 
         <label for="kids">Number of Kids:</label>
-        <input type="number" id="kidsInput" name="kidsInput" min="0" max="10">
+        <input type="number" id="kids" name="kids" min="0" max="10">
         <button type="submit" id="submit-button">Submit</button>
     </form>
       </div>
@@ -95,8 +95,9 @@
     const noButton = document.getElementById("no-button");
     const submitButton = document.getElementById("submit-button");
     const rsvpFormContainer = document.getElementById("rsvp-form-container");
+    const adultsInput = document.getElementById("adults");
     const kidsInput = document.getElementById("kids");
-
+    
     // Handle Yes Button Click
     yesButton.addEventListener("click", () => {
       rsvpFormContainer.style.display = "block";
