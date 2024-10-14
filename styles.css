@@ -253,3 +253,45 @@ body, html {
 .rsvp-button:hover {
   opacity: 0.8;
 }
+
+/* RSVP Form Styling */
+#rsvp-form-container {
+  background: #f9f9f9;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  margin-top: 20px;
+}
+
+#rsvp-form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  align-items: center;
+}
+
+#rsvp-form label {
+  font-weight: bold;
+  flex: 1 0 150px;
+}
+
+#rsvp-form input {
+  flex: 2 0 200px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+#rsvp-form button {
+  background: #4CAF50;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+#rsvp-form button:hover {
+  background: #45a049;
+}
+
