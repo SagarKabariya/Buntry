@@ -28,12 +28,14 @@
   </div>
 
   <div class="container">
-    <p>We are hosting a Surprise Birthday Party for our lovely Bunty on his 36th Birthday at Kinara Indian Restaurant
-    </p>
-    <p>It's Surprise Party so please keep it quite.... 
-    </p>
-    <p>Be do RSVP By Sunday, November 17th
-    </p>
+    <div class="event-info">
+      <p>We are hosting a Surprise Birthday Party for our lovely Bunty on his 36th Birthday at Kinara Indian Restaurant
+      </p>
+      <p>It's Surprise Party so please keep it quite....
+      </p>
+      <p>Please do RSVP By Sunday, November 17th
+      </p>
+    </div>
 
     <!-- Event Location -->
     <div class="event-location">
@@ -80,8 +82,8 @@
         <label for="kids">Number of Kids:</label>
         <input type="number" id="kids" name="kids" min="0" max="10">
         <button type="submit" id="submit-button">Submit</button>
-    </form>
-      </div>
+      </form>
+    </div>
   </div>
   </div>
 
@@ -103,7 +105,7 @@
     const rsvpFormContainer = document.getElementById("rsvp-form-container");
     const adultsInput = document.getElementById("adults");
     const kidsInput = document.getElementById("kids");
-    
+
     // Handle Yes Button Click
     yesButton.addEventListener("click", () => {
       rsvpFormContainer.style.display = "block";
